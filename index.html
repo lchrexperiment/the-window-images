@@ -38,40 +38,46 @@
   <img id="lightbox-img" src="" alt="">
 </div>
 <script>
-const USERNAME = 'lchrexperiment';
-const REPO = 'the-window-images';
-const RAW = https://raw.githubusercontent.com/+USERNAME+/+REPO+/main;
+var USERNAME = 'lchrexperiment';
+var REPO = 'the-window-images';
+var RAW = 'https://raw.githubusercontent.com/' + USERNAME + '/' + REPO + '/main';
 
-async function load() {
-  const r = await fetch(+""+RAW+/window.json?t=+""++Date.now());
-  const data = await r.json();
+function load() {
+  fetch(RAW + '/window.json?t=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      document.getElementById('understanding').textContent = data.understanding || '';
 
-  document.getElementById('understanding').textContent = data.understanding || '';
+      var imgGrid = document.getElementById('images');
+      (data.images || []).forEach(function(src) {
+        var img = document.createElement('img');
+        img.src = src;
+        img.loading = 'lazy';
+        img.onclick = function() { openLightbox(src); };
+        imgGrid.appendChild(img);
+      });
 
-  const imgGrid = document.getElementById('images');
-  (data.images || []).forEach(src => {
-    const img = document.createElement('img');
-    img.src = src;
-    img.loading = 'lazy';
-    img.onclick = () => openLightbox(src);
-    imgGrid.appendChild(img);
-  });
+      (data.questions || []).forEach(function(q) {
+        var li = document.createElement('li');
+        li.textContent = q;
+        document.getElementById('questions-list').appendChild(li);
+      });
 
-  (data.questions || []).forEach(q => {
-    const li = document.createElement('li');
-    li.textContent = q;
-    document.getElementById('questions-list').appendChild(li);
-  });
-
-  if (data.updated) document.getElementById('updated').textContent = data.updated;
+      if (data.updated) document.getElementById('updated').textContent = data.updated;
+    })
+    .catch(function(e) { console.error('Failed to load window.json', e); });
 }
 
 function openLightbox(src) {
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('open');
 }
-document.getElementById('lightbox-close').onclick = () => document.getElementById('lightbox').classList.remove('open');
-document.getElementById('lightbox').onclick = e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('open'); };
+document.getElementById('lightbox-close').onclick = function() {
+  document.getElementById('lightbox').classList.remove('open');
+};
+document.getElementById('lightbox').onclick = function(e) {
+  if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+};
 
 load();
 </script>
