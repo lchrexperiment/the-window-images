@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leanne Christie</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f5f4f0; color: #1a1a1a; font-family: Georgia, serif; }
+  #container { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
+  #understanding { font-size: 1.15rem; line-height: 1.8; margin-bottom: 48px; }
+  #images { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 48px; }
+  #images img { width: 100%; aspect-ratio: 1; object-fit: cover; cursor: pointer; transition: opacity 0.2s; }
+  #images img:hover { opacity: 0.85; }
+  #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; align-items: center; justify-content: center; }
+  #lightbox.open { display: flex; }
+  #lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
+  #lightbox-close { position: fixed; top: 24px; right: 32px; color: #fff; font-size: 2rem; cursor: pointer; }
+  #questions { border-top: 1px solid #ccc; padding-top: 32px; }
+  #questions h2 { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 20px; font-weight: normal; }
+  #questions ul { list-style: none; }
+  #questions li { font-size: 1rem; line-height: 1.7; margin-bottom: 12px; color: #444; }
+  #updated { font-size: 0.78rem; color: #aaa; margin-top: 48px; }
+</style>
+</head>
+<body>
+<div id="container">
+  <div id="understanding"></div>
+  <div id="images"></div>
+  <div id="questions">
+    <h2>What the work is holding</h2>
+    <ul id="questions-list"></ul>
+  </div>
+  <div id="updated"></div>
+</div>
+<div id="lightbox">
+  <span id="lightbox-close">&#215;</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+<script>
+const REPO = 'the-window-images';
+const USERNAME = 'lchrexperiment';
+const BASE = `https://cdn.jsdelivr.net/gh/${USERNAME}/${REPO}`;
+
+async function load() {
+  const r = await fetch(`${BASE}/window.json?t=${Date.now()}`);
+  const data = await r.json();
+
+  document.getElementById('understanding').textContent = data.understanding || '';
+
+  const imgGrid = document.getElementById('images');
+  const imgs = data.images || [];
+  imgs.forEach(src => {
+    const img = document.createElement('img');
+    img.src = src;
+    img.loading = 'lazy';
+    img.onclick = () => openLightbox(src);
+    imgGrid.appendChild(img);
+  });
+
+  const ql = document.getElementById('questions-list');
+  (data.questions || []).forEach(q => {
+    const li = document.createElement('li');
+    li.textContent = q;
+    ql.appendChild(li);
+  });
+
+  if (data.updated) {
+    document.getElementById('updated').textContent = data.updated;
+  }
+}
+
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+document.getElementById('lightbox-close').onclick = () => {
+  document.getElementById('lightbox').classList.remove('open');
+};
+document.getElementById('lightbox').onclick = (e) => {
+  if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+};
+
+load();
+</script>
+</body>
+</html>
