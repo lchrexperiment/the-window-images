@@ -38,19 +38,18 @@
   <img id="lightbox-img" src="" alt="">
 </div>
 <script>
-const REPO = 'the-window-images';
 const USERNAME = 'lchrexperiment';
-const BASE = `https://cdn.jsdelivr.net/gh/${USERNAME}/${REPO}`;
+const REPO = 'the-window-images';
+const RAW = https://raw.githubusercontent.com/+USERNAME+/+REPO+/main;
 
 async function load() {
-  const r = await fetch(`${BASE}/window.json?t=${Date.now()}`);
+  const r = await fetch(+""+RAW+/window.json?t=+""++Date.now());
   const data = await r.json();
 
   document.getElementById('understanding').textContent = data.understanding || '';
 
   const imgGrid = document.getElementById('images');
-  const imgs = data.images || [];
-  imgs.forEach(src => {
+  (data.images || []).forEach(src => {
     const img = document.createElement('img');
     img.src = src;
     img.loading = 'lazy';
@@ -58,28 +57,21 @@ async function load() {
     imgGrid.appendChild(img);
   });
 
-  const ql = document.getElementById('questions-list');
   (data.questions || []).forEach(q => {
     const li = document.createElement('li');
     li.textContent = q;
-    ql.appendChild(li);
+    document.getElementById('questions-list').appendChild(li);
   });
 
-  if (data.updated) {
-    document.getElementById('updated').textContent = data.updated;
-  }
+  if (data.updated) document.getElementById('updated').textContent = data.updated;
 }
 
 function openLightbox(src) {
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('open');
 }
-document.getElementById('lightbox-close').onclick = () => {
-  document.getElementById('lightbox').classList.remove('open');
-};
-document.getElementById('lightbox').onclick = (e) => {
-  if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
-};
+document.getElementById('lightbox-close').onclick = () => document.getElementById('lightbox').classList.remove('open');
+document.getElementById('lightbox').onclick = e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('open'); };
 
 load();
 </script>
