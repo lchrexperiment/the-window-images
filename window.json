@@ -1,12 +1,15 @@
 {
-    "questions":  [
-                      "How does the archive\u0027s sparsity affect the reliability of interpreting claims like \u0027paint as first language\u0027?",
-                      "What is the relationship between studio stability and street wandering — are they genuinely poles, or more entangled?",
-                      "What has the practice been doing with financial constraints — do fragments frame them as boundaries, mechanisms, or something else entirely?"
-                  ],
-    "understanding":  "Leanne Christie is a painter working in oil on canvas. The practice is built around painting as a primary intelligence — not expression of prior ideas but the site where ideas happen. The studio is in Chinatown. The work moves between studio and street, between anchored making and open wandering. Paint is a communicative decision, not a style. The work holds questions about what survives destruction, what depth of flavour requires, and what it means to make something that is undeniably itself.",
-    "updated":  "March 2026",
-    "images":  [
-                   "https://cdn.jsdelivr.net/gh/lchrexperiment/the-window-images/paintings/photo_328.jpg"
-               ]
+  "updated": "March 2026",
+  "understanding": "Living Understanding  \n*Last updated: 2026-03-31*  \n\nLIVING UNDERSTANDING  \nThe system's current best understanding of the practice.  \nNot a fixed description. A working document.  \nFirst version: March 10, 2026  \n\nThis document is written by the system and updated after  \nevery weekly consolidation. It will be wrong in places.  \nThat is correct. When something here no longer fits what  \nis arriving from the practice, update it. When something  \nnew stabi...",
+  "questions": [
+    "What has the practice been doing with financial constraints — do fragments frame them as boundaries, mechanisms, or something else entirely?",
+    "How does the archive’s sparsity affect the reliability of interpreting claims like “paint as first language”?",
+    "Does the AI’s role as a non-human collaborator persist beyond this moment, or is it a transient feature?"
+  ],
+  "images": [
+    "https://cdn.jsdelivr.net/gh/lchrexperiment/the-window-images/paintings/photo_328.jpg",
+    "https://cdn.jsdelivr.net/gh/lchrexperiment/the-window-images/paintings/photo_377.jpg",
+    "https://cdn.jsdelivr.net/gh/lchrexperiment/the-window-images/paintings/photo_379.jpg",
+    "https://cdn.jsdelivr.net/gh/lchrexperiment/the-window-images/paintings/photo_382.jpg"
+  ]
 }
