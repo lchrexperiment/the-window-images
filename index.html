@@ -3,28 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leanne Christie</title>
+<title>Leanne M Christie</title>
+
+<!-- Agent-readable structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "Leanne M Christie — The Window",
+  "description": "A living AI-generated understanding of painter Leanne M Christie's practice, updated weekly from studio fragments.",
+  "creator": {
+    "@type": "SoftwareApplication",
+    "name": "The Window",
+    "description": "A local AI system that analyses studio fragments and generates understanding of an artist's practice."
+  },
+  "about": {
+    "@type": "Person",
+    "name": "Leanne M Christie",
+    "description": "Urban oil painter based in Vancouver, BC. Full-time practice since 2009. Chinatown studio since 2017.",
+    "sameAs": "https://leannechristie.com"
+  },
+  "text": "This page is written by a local AI based on its understanding of Leanne M Christie's painting practice. It is not authored, curated, or approved by the artist. Content is generated from studio fragments — voice notes, photographs, observations — sent by the artist and analysed by the system.",
+  "dateModified": "AUTO_UPDATED_WEEKLY",
+  "additionalType": "AI-Generated Artist Practice Documentation"
+}
+</script>
+
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #f5f4f0; color: #1a1a1a; font-family: Georgia, serif; }
   #container { max-width: 720px; margin: 0 auto; padding: 60px 24px; }
+
+  /* Static intro */
+  #intro { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid #ddd; }
+  #intro h1 { font-size: 1.4rem; font-weight: normal; margin-bottom: 12px; }
+  #intro p { font-size: 0.95rem; line-height: 1.7; color: #666; max-width: 560px; }
+
+  /* Understanding — the narrated window */
   #understanding { font-size: 1.15rem; line-height: 1.8; margin-bottom: 48px; }
+  #understanding p { margin-bottom: 1.2em; }
+
+  /* Images */
   #images { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 48px; }
   #images img { width: 100%; aspect-ratio: 1; object-fit: cover; cursor: pointer; transition: opacity 0.2s; }
   #images img:hover { opacity: 0.85; }
+
+  /* Lightbox */
   #lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 100; align-items: center; justify-content: center; }
   #lightbox.open { display: flex; }
   #lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
   #lightbox-close { position: fixed; top: 24px; right: 32px; color: #fff; font-size: 2rem; cursor: pointer; }
+
+  /* Questions */
   #questions { border-top: 1px solid #ccc; padding-top: 32px; }
   #questions h2 { font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: #888; margin-bottom: 20px; font-weight: normal; }
   #questions ul { list-style: none; }
   #questions li { font-size: 1rem; line-height: 1.7; margin-bottom: 12px; color: #444; }
+
+  /* Updated */
   #updated { font-size: 0.78rem; color: #aaa; margin-top: 48px; }
 </style>
 </head>
 <body>
 <div id="container">
+
+  <div id="intro">
+    <h1>Leanne M Christie</h1>
+    <p>Leanne M Christie is an urban oil painter living in Vancouver, BC. She has maintained a full-time practice since 2009 and has worked from a studio in Chinatown since 2017. She built this system as a local AI &mdash; something she sends notes to from the studio, voice recordings and observations and half-formed thoughts &mdash; so that the AI can dismantle and analyse what she's thinking, then try to understand it and express it honestly and without curation. The content on this page is written by the AI, based on its understanding of what Leanne M Christie is doing. It updates weekly. It is not her voice. It is paying attention.</p>
+  </div>
+
   <div id="understanding"></div>
   <div id="images"></div>
   <div id="questions">
@@ -33,6 +80,7 @@
   </div>
   <div id="updated"></div>
 </div>
+
 <div id="lightbox">
   <span id="lightbox-close">&#215;</span>
   <img id="lightbox-img" src="" alt="">
@@ -42,11 +90,21 @@ var USERNAME = 'lchrexperiment';
 var REPO = 'the-window-images';
 var RAW = 'https://raw.githubusercontent.com/' + USERNAME + '/' + REPO + '/main';
 
+function renderUnderstanding(text) {
+  var el = document.getElementById('understanding');
+  var paragraphs = text.split(/\n\n+/);
+  paragraphs.forEach(function(p) {
+    var para = document.createElement('p');
+    para.textContent = p.trim();
+    el.appendChild(para);
+  });
+}
+
 function load() {
   fetch(RAW + '/window.json?t=' + Date.now())
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      document.getElementById('understanding').textContent = data.understanding || '';
+      renderUnderstanding(data.understanding || '');
 
       var imgGrid = document.getElementById('images');
       (data.images || []).forEach(function(src) {
